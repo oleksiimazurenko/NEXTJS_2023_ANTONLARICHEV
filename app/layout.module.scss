@@ -8,6 +8,7 @@
 		'. header header .'
 		'. sidebar main .'
 		'footer footer footer footer';
+	padding-top: 34px;
 }
 
 .header {
@@ -19,6 +20,7 @@
 }
 .main {
 	grid-area: main;
+	padding-bottom: 15px;
 }
 .footer {
 	grid-area: footer;
@@ -32,13 +34,16 @@
 				"header"
 				"main"
 				"footer";
+			padding-top: 0;
 	}
 
 	.sidebar{
-		display: none;
+		display: none !important;
 	}
 	.header {
 		display: block;
 	}
-
+	.main {
+		padding: 15px;
+	}
 }

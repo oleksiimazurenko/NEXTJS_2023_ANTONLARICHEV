@@ -4,12 +4,11 @@ import { navbarAPI } from '@/API/navbarAPI'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { firstLevelMenu } from '@/helper/helpers'
-import { TopLevelCategory } from '@/interfaces/page.interface'
+import { TopPageComponent } from '@/page-components/topPageComponent/TopPageComponent'
 
 export const metadata: Metadata = {
-	title: 'PageCourses',
+	title: 'Alias',
 }
-
 
 
 
@@ -28,9 +27,7 @@ export async function generateStaticParams() {
 }
 
 
-
-
-export default async function PageCourses({
+export default async function TopPage({
 	params
 }: {
 	params: { type: string, alias: string }
@@ -44,11 +41,11 @@ export default async function PageCourses({
 	const page = await pageAPI(params.alias)
 	if (!page) notFound()
 
-	const products = await productsAPI(page?.category)
+	const products = await productsAPI(page.category)
 
-	return (
-		<div>
-			{products.length}
-		</div>
-	)
+	return <TopPageComponent 
+		firstCategory={firstCategoryItem.id}
+		page={page}
+		products={products}
+		/>
 }

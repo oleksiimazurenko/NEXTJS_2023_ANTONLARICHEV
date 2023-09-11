@@ -2,49 +2,53 @@
 
 import { v4 as uuidv4 } from 'uuid'
 
-
 import {
 	FirstLevelMenuItem,
 	NavbarItem,
 	PageItem,
 } from '@/interfaces/navbar.interface'
 
-
 import { usePathname } from 'next/navigation'
 
 import cn from 'classnames'
 import styles from './Navbar.module.scss'
 
+import { firstLevelMenu } from '@/helper/helpers'
 import { changeCurrentMenu } from '@/store/navbarState/activePage.slice'
 import { AppDispatch, useAppSelector } from '@/store/store'
 import Link from 'next/link'
-import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { firstLevelMenu } from '@/helper/helpers'
+import { useDispatch } from 'react-redux'
 
 export const ClientSideNavbar = ({
 	defaultMenu,
 }: {
 	defaultMenu: NavbarItem[]
 }): JSX.Element => {
-	
+	//----------------------------------------------------------------------------
+
 	const pathname = usePathname()
+
+	//----------------------------------------------------------------------------
+
 	const dispatch = useDispatch<AppDispatch>()
+
 	useEffect(() => {
 		dispatch(
 			changeCurrentMenu(
 				defaultMenu.map(m => ({
 					...m,
-					isOpened: m.pages.map(p => p.alias).includes(pathname.split('/')[2])
+					isOpened: m.pages.map(p => p.alias).includes(pathname.split('/')[2]),
 				}))
 			)
-		);
-	}, []); 
-	
+		)
+	}, [])
+
+	//----------------------------------------------------------------------------
 
 	const currentMenu = useAppSelector(state => state.currentMenu)
 
-	
+	//----------------------------------------------------------------------------
 
 	const openSecondLevel = (secondCategory: string) => {
 		const array = currentMenu.map(m => {
@@ -55,11 +59,12 @@ export const ClientSideNavbar = ({
 			}
 		})
 
-		dispatch(changeCurrentMenu(array));
+		dispatch(changeCurrentMenu(array))
 	}
 
-	const buildFirstLevel = () => {
+	//----------------------------------------------------------------------------
 
+	const buildFirstLevel = () => {
 		return (
 			<>
 				{firstLevelMenu.map(menu => {
@@ -70,6 +75,7 @@ export const ClientSideNavbar = ({
 									className={cn(styles.firstLevel, {
 										[styles.firstLevelActive]: pathname.includes(menu.route),
 									})}
+									// onClick={() => openFirstLevel(m._id.secondCategory)}
 								>
 									{menu.icon}
 									<span>{menu.name}</span>
@@ -83,12 +89,12 @@ export const ClientSideNavbar = ({
 		)
 	}
 
-	const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
+	//----------------------------------------------------------------------------
 
+	const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
 		return (
 			<div className={styles.secondBlock}>
 				{currentMenu.map(m => {
-
 					return (
 						<div key={uuidv4()}>
 							<div
@@ -106,21 +112,21 @@ export const ClientSideNavbar = ({
 							</div>
 						</div>
 					)
-					
 				})}
 			</div>
 		)
 	}
 
-	const buildThirdLevel = (pages: PageItem[], route: string) => {
+	//----------------------------------------------------------------------------
 
+	const buildThirdLevel = (pages: PageItem[], route: string) => {
 		return pages.map(p => (
 			<Link
 				key={uuidv4()}
 				href={`/${route}/${p.alias}`}
 				className={cn(styles.thirdLevel, {
 					[styles.thirdLevelActive]:
-						`/${pathname.split('/')[1]}/${p.alias}` == usePathname(),
+						`/${pathname.split('/')[1]}/${p.alias}` == pathname,
 				})}
 			>
 				{p.category}

@@ -5,7 +5,6 @@ interface initialState{
 	currentMenu: NavbarItem[];
 }
 
-
 const initialState = {
 	currentMenu: []
 } as initialState;
