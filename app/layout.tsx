@@ -1,13 +1,13 @@
 import '@/styles/globals.scss'
 
 import type { Metadata } from 'next'
-import styles from './layout.module.scss'
 import { Noto_Sans } from 'next/font/google'
+import styles from './layout.module.scss'
 
-import { Footer } from '../../components/Footer/Footer'
-import { Header } from '../../components/Header/Header'
-import { Sidebar } from '../../components/Sidebar/Sidebar'
 import { ReduxProvider } from '@/store/provider'
+import { Footer } from '../components/Footer/Footer'
+import { Header } from '../components/Header/Header'
+import { Sidebar } from '../components/Sidebar/Sidebar'
 
 const notoSans = Noto_Sans({
 	subsets: ['latin', 'cyrillic'],
@@ -26,7 +26,6 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		
 		<html lang='en'>
 			<body className={`${notoSans.className} ${styles.wrapper}`}>
 				<ReduxProvider>
@@ -37,6 +36,5 @@ export default function RootLayout({
 				</ReduxProvider>
 			</body>
 		</html>
-
 	)
 }

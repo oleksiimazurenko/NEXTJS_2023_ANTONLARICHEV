@@ -1,9 +1,16 @@
 export enum TopLevelCategory {
-	Courses = 'courses',
-	Services = 'services',
-	Books = 'books',
-	Products = 'products',
+	Courses,
+	Services,
+	Books,
+	Products,
 }
+
+// export enum TopLevelCategory {
+// 	Courses = 'courses',
+// 	Services = 'services',
+// 	Books = 'books',
+// 	Products = 'products',
+// }
 
 export interface TopPageAdvantage {
 	_id: string

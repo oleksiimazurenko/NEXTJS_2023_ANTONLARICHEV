@@ -2,17 +2,13 @@
 
 import { v4 as uuidv4 } from 'uuid'
 
-import BooksIcon from './icons/books.svg'
-import CoursesIcon from './icons/courses.svg'
-import ProductsIcon from './icons/product.svg'
-import ServicesIcon from './icons/services.svg'
 
 import {
 	FirstLevelMenuItem,
 	NavbarItem,
 	PageItem,
 } from '@/interfaces/navbar.interface'
-import { TopLevelCategory } from '@/interfaces/page.interface'
+
 
 import { usePathname } from 'next/navigation'
 
@@ -24,6 +20,7 @@ import { AppDispatch, useAppSelector } from '@/store/store'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { firstLevelMenu } from '@/helper/helpers'
 
 export const ClientSideNavbar = ({
 	defaultMenu,
@@ -47,32 +44,7 @@ export const ClientSideNavbar = ({
 
 	const currentMenu = useAppSelector(state => state.currentMenu)
 
-	const firstLevelMenu: FirstLevelMenuItem[] = [
-		{
-			route: 'courses',
-			name: 'Курсы',
-			icon: <CoursesIcon />,
-			id: TopLevelCategory.Courses,
-		},
-		{
-			route: 'services',
-			name: 'Сервисы',
-			icon: <ServicesIcon />,
-			id: TopLevelCategory.Services,
-		},
-		{
-			route: 'books',
-			name: 'Kниги',
-			icon: <BooksIcon />,
-			id: TopLevelCategory.Books,
-		},
-		{
-			route: 'products',
-			name: 'Продукты',
-			icon: <ProductsIcon />,
-			id: TopLevelCategory.Products,
-		},
-	]
+	
 
 	const openSecondLevel = (secondCategory: string) => {
 		const array = currentMenu.map(m => {
@@ -96,14 +68,14 @@ export const ClientSideNavbar = ({
 							<Link href={`/${menu.route}`}>
 								<div
 									className={cn(styles.firstLevel, {
-										[styles.firstLevelActive]: pathname.includes(menu.id),
+										[styles.firstLevelActive]: pathname.includes(menu.route),
 									})}
 								>
 									{menu.icon}
 									<span>{menu.name}</span>
 								</div>
 							</Link>
-							{pathname.includes(menu.id) && buildSecondLevel(menu)}
+							{pathname.includes(menu.route) && buildSecondLevel(menu)}
 						</div>
 					)
 				})}
