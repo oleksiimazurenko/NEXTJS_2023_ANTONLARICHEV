@@ -6,6 +6,12 @@ import { TopLevelCategory } from '@/interfaces/page.interface'
 import { useEffect } from 'react'
 import { HhData } from '@/components/HhData/HhData'
 import { Advantages } from '@/components/Advantages/Advantages'
+import { useDispatch } from 'react-redux'
+import { AppDispatch, useAppSelector } from '@/store/store'
+import { SortEnum } from '@/components/Sort/Sort.props'
+import { addProducts, sorting } from '@/store/slices/sorting.slice'
+import { Sort } from '@/components/Sort/Sort'
+import { Product } from '@/components/Product/Product'
 
 export const TopPageComponent = ({
 	page,
@@ -13,16 +19,37 @@ export const TopPageComponent = ({
 	firstCategory,
 }: TopPageComponentProps): JSX.Element => {
 
-	// const [{ products: sortedProducts, sort }, dispathSort] = useReducer(sortReducer, { products, sort: SortEnum.Rating });
-	// const shouldReduceMotion = useReducedMotion();
+	const dispatch = useDispatch<AppDispatch>()
 
-	// const setSort = (sort: SortEnum) => {
-	// 	dispathSort({ type: sort });
-	// };
+	const setSort = (sort: SortEnum.Rating) => {
+		dispatch(
+			sorting(sort));
+	};
+
+	useEffect(() => {
+		dispatch(
+			addProducts(products)
+		)
+	}, [])
+
+	useEffect(() => {
+		dispatch(
+			sorting(SortEnum.Rating)
+		)
+	}, [])
+
+	const { products: sortedProducts, sort } = useAppSelector(state => state.sorting)
 
 	// useEffect(() => {
-	// 	dispathSort({ type: 'reset', initialState: products });
-	// }, [products]);
+	// 	dispatch(
+	// 		sorting({ type: 'reset', initialState: products })
+	// 	)
+	// }, [products])
+
+	
+
+	// const [{ products: sortedProducts, sort }, dispathSort] = useReducer(sortReducer, { products, sort: SortEnum.Rating });
+	// const shouldReduceMotion = useReducedMotion();
 
 	return (
 		<div className={styles.wrapper}>
@@ -33,18 +60,17 @@ export const TopPageComponent = ({
 						{products.length}
 					</Tag>
 				)}
-				{/* <Sort sort={sort} setSort={setSort} /> */}
+				<Sort sort={sort} setSort={setSort} />
 			</div>
 			<div role='list'>
-				{/* {sortedProducts &&
-					sortedProducts.map(p => (
-						<Product
-							role='listitem'
-							layout={shouldReduceMotion ? false : true}
-							key={p._id}
-							product={p}
-						/>
-					))} */}
+				{sortedProducts && sortedProducts.map(p => (
+					<Product
+						role='listitem'
+						// layout={shouldReduceMotion ? false : true}
+						key={p._id}
+						product={p}
+					/>
+				))}
 			</div>
 			<div className={styles.hhTitle}>
 				<Htag tag='h2'>Вакансии - {page.category}</Htag>

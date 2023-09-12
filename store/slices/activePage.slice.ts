@@ -1,19 +1,19 @@
 import { NavbarItem } from '@/interfaces/navbar.interface'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface initialState{
+interface stateInterface{
 	currentMenu: NavbarItem[];
 }
 
 const initialState = {
 	currentMenu: []
-} as initialState;
+} as stateInterface;
 
-export const navbarStateSlice = createSlice({
-	name: 'navbarState',
+export const activePageSlice = createSlice({
+	name: 'activePage',
 	initialState,
 	reducers: {
-		changeCurrentMenu: (state, {payload}: PayloadAction<NavbarItem[]>) => {
+		changeCurrentNavbar: (state, {payload}: PayloadAction<NavbarItem[]>) => {
 			if(state.currentMenu === payload){
 				return;
 			}
@@ -22,5 +22,5 @@ export const navbarStateSlice = createSlice({
 	}
 })
 
-export const { changeCurrentMenu } = navbarStateSlice.actions;
-export default navbarStateSlice.reducer;
+export const { changeCurrentNavbar } = activePageSlice.actions;
+export default activePageSlice.reducer;

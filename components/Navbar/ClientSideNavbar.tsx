@@ -14,7 +14,7 @@ import cn from 'classnames'
 import styles from './Navbar.module.scss'
 
 import { firstLevelMenu } from '@/helper/helpers'
-import { changeCurrentMenu } from '@/store/navbarState/activePage.slice'
+import { changeCurrentNavbar } from '@/store/slices/activePage.slice'
 import { AppDispatch, useAppSelector } from '@/store/store'
 import Link from 'next/link'
 import { useEffect } from 'react'
@@ -35,7 +35,7 @@ export const ClientSideNavbar = ({
 
 	useEffect(() => {
 		dispatch(
-			changeCurrentMenu(
+			changeCurrentNavbar(
 				defaultMenu.map(m => ({
 					...m,
 					isOpened: m.pages.map(p => p.alias).includes(pathname.split('/')[2]),
@@ -46,7 +46,7 @@ export const ClientSideNavbar = ({
 
 	//----------------------------------------------------------------------------
 
-	const currentMenu = useAppSelector(state => state.currentMenu)
+	const currentMenu = useAppSelector(state => state.activePage.currentMenu)
 
 	//----------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ export const ClientSideNavbar = ({
 			}
 		})
 
-		dispatch(changeCurrentMenu(array))
+		dispatch(changeCurrentNavbar(array))
 	}
 
 	//----------------------------------------------------------------------------
