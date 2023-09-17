@@ -5,7 +5,7 @@ import cn from 'classnames'
 export const Tag = ({size = 's', children, color = 'ghost', href, className, ...props}: ITagProps): JSX.Element => {
 	return(
 			<div className={cn(styles.tag, className, {
-				[styles.l]: size == 's',
+				[styles.s]: size == 's',
 				[styles.m]: size == 'm',
 				[styles.ghost]: color == 'ghost',
 				[styles.red]: color == 'red',

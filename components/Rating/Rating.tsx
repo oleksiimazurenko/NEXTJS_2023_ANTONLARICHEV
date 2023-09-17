@@ -5,6 +5,9 @@ import styles from './Rating.module.scss'
 import { IRatingProps } from './Rating.props'
 import StarIcon from './star.svg'
 import { v4 as uuidv4 } from 'uuid';
+
+
+
 export const Rating = ({
 	isEditable = false,
 	rating,

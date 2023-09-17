@@ -9,11 +9,9 @@ export const metadata: Metadata = {
 
 
 
-
 export async function generateStaticParams() {
 	return firstLevelMenu.map(p => ({ type: p.route }))
 }
-
 
 
 

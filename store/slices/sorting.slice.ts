@@ -27,7 +27,6 @@ export const sortingSlice = createSlice({
 					return {
 						...state,
 						sort: SortEnum.Rating,
-						// products: state.products.sort ((a, b) => a. initialRating > b. initialRating ? -1 : 1)
 						products: [...state.products].sort((a, b) =>
 							a.initialRating > b.initialRating ? -1 : 1
 						),
@@ -36,7 +35,6 @@ export const sortingSlice = createSlice({
 					return {
 						...state,
 						sort: SortEnum.Price,
-						// products: state.products.sort((a, b) => a.price > b.price ? 1 : -1)
 						products: [...state.products].sort((a, b) =>
 							a.initialRating > b.initialRating ? -1 : 1
 						),

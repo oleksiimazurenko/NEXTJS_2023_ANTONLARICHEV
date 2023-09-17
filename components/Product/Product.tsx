@@ -1,5 +1,5 @@
 import { ProductProps } from './Product.props';
-import styles from './Product.module.css';
+import styles from './Product.module.scss';
 import cn from 'classnames';
 import { Card } from '../Card/Card';
 import { Rating } from '../Rating/Rating';
@@ -11,28 +11,34 @@ import Image from 'next/image';
 import { ForwardedRef, forwardRef, useRef, useState } from 'react';
 // import { Review } from '../Review/Review';
 // import { ReviewForm } from '../ReviewForm/ReviewForm';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 
-export const Product = motion(forwardRef(({ product, className, ...props }: ProductProps, ref: ForwardedRef<HTMLDivElement>): JSX.Element => {
-	const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
-	const reviewRef = useRef<HTMLDivElement>(null);
+export const Product = 
+// motion(forwardRef(
+	({ product, className, ...props }: ProductProps, 
+		// ref: ForwardedRef<HTMLDivElement>
+		): JSX.Element => {
+	// const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
+	// const reviewRef = useRef<HTMLDivElement>(null);
 
-	const variants = {
-		visible: { opacity: 1, height: 'auto' },
-		hidden: { opacity: 0, height: 0 }
-	};
+	// const variants = {
+	// 	visible: { opacity: 1, height: 'auto' },
+	// 	hidden: { opacity: 0, height: 0 }
+	// };
 
-	const scrollToReview = () => {
-		setIsReviewOpened(true);
-		reviewRef.current?.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start'
-		});
-		reviewRef.current?.focus();
-	};
+	// const scrollToReview = () => {
+	// 	setIsReviewOpened(true);
+	// 	reviewRef.current?.scrollIntoView({
+	// 		behavior: 'smooth',
+	// 		block: 'start'
+	// 	});
+	// 	reviewRef.current?.focus();
+	// };
 
 	return (
-		<div className={className} {...props} ref={ref}>
+		<div className={className} {...props} 
+		// ref={ref}
+		>
 			<Card className={styles.product}>
 				<div className={styles.logo}>
 					<Image
@@ -44,24 +50,29 @@ export const Product = motion(forwardRef(({ product, className, ...props }: Prod
 				</div>
 				<div className={styles.title}>{product.title}</div>
 				<div className={styles.price}>
-					<span><span className="visualyHidden">цена</span>{priceRu(product.price)}</span>
+					<span>
+						{/* <span className="visualyHidden">цена</span> */}
+						{priceRu(product.price)}
+					</span>
 					{product.oldPrice && <Tag className={styles.oldPrice} color="green">
-						<span className="visualyHidden">скидка</span>
+						{/* <span className="visualyHidden">скидка</span> */}
 						{priceRu(product.price - product.oldPrice)}
 					</Tag>}
 				</div>
 				<div className={styles.credit}>
-					<span className="visualyHidden">кредит</span>
+					{/* <span className="visualyHidden">кредит</span> */}
 					{priceRu(product.credit)}/<span className={styles.month}>мес</span>
 				</div>
 				<div className={styles.rating}>
-					<span className="visualyHidden">{'рейтинг' + (product.reviewAvg ?? product.initialRating)}</span>
+					{/* <span className="visualyHidden">{'рейтинг' + (product.reviewAvg ?? product.initialRating)}</span> */}
 					<Rating rating={product.reviewAvg ?? product.initialRating} />
 				</div>
 				<div className={styles.tags}>{product.categories.map(c => <Tag key={c} className={styles.category} color='ghost'>{c}</Tag>)}</div>
 				<div className={styles.priceTitle} aria-hidden={true}>цена</div>
 				<div className={styles.creditTitle} aria-hidden={true}>кредит</div>
-				<div className={styles.rateTitle}><a href="#ref" onClick={scrollToReview}>{product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}</a></div>
+				<div className={styles.rateTitle}><a href="#ref" 
+				// onClick={scrollToReview}
+				>{product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}</a></div>
 				<Divider className={styles.hr} />
 				<div className={styles.description}>{product.description}</div>
 				<div className={styles.feature}>
@@ -78,20 +89,20 @@ export const Product = motion(forwardRef(({ product, className, ...props }: Prod
 						<div className={styles.advTitle}>Преимущества</div>
 						<div>{product.advantages}</div>
 					</div>}
-					{/* {product.disadvantages && <div className={styles.disadvantages}>
+					{product.disadvantages && <div className={styles.disadvantages}>
 						<div className={styles.advTitle}>Недостатки</div>
 						<div>{product.disadvantages}</div>
-					</div>} */}
+					</div>}
 				</div>
 				<Divider className={cn(styles.hr, styles.hr2)} />
 				<div className={styles.actions}>
 					<Button appearance='primary'>Узнать подробнее</Button>
 					<Button
 						appearance='ghost'
-						arrow={isReviewOpened ? 'down' : 'right'}
+						// arrow={isReviewOpened ? 'down' : 'right'}
 						className={styles.reviewButton}
-						onClick={() => setIsReviewOpened(!isReviewOpened)}
-						aria-expanded={isReviewOpened}
+						// onClick={() => setIsReviewOpened(!isReviewOpened)}
+						// aria-expanded={isReviewOpened}
 					>Читать отзывы</Button>
 				</div>
 			</Card>
@@ -108,4 +119,6 @@ export const Product = motion(forwardRef(({ product, className, ...props }: Prod
 			</motion.div> */}
 		</div>
 	);
-}));
+}
+// ))
+;
