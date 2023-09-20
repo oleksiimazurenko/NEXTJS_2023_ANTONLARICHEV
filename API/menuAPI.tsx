@@ -1,7 +1,7 @@
 import { MenuItem } from '@/interfaces/menu.interface'
 import { API } from './API'
 
-export async function navbarAPI(firstCategory: number): Promise<MenuItem[]> {
+export async function menuAPI(firstCategory: number): Promise<MenuItem[]> {
 	const res = await fetch(API.topPage.find, {
 		method: 'POST',
 		body: JSON.stringify({

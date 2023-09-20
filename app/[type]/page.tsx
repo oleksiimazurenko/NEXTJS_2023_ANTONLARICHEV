@@ -1,4 +1,4 @@
-import { navbarAPI } from '@/API/menuAPI'
+import { menuAPI } from '@/API/menuAPI'
 import { firstLevelMenu } from '@/helper/helpers'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -21,7 +21,7 @@ export default async function TypePage({
 	const firstCategoryItem = firstLevelMenu.find(m => m.route == params.type)
 	if (!firstCategoryItem) notFound()
 
-	const menu = await navbarAPI(firstCategoryItem.id)
+	const menu = await menuAPI(firstCategoryItem.id)
 
 	return <div>Type: {firstCategoryItem.id}</div>
 }

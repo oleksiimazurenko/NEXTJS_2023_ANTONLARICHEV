@@ -1,4 +1,4 @@
-import { navbarAPI } from '@/API/menuAPI'
+import { menuAPI } from '@/API/menuAPI'
 import { pageAPI } from '@/API/pageAPI'
 import { productsAPI } from '@/API/productsAPI'
 import { firstLevelMenu } from '@/helper/helpers'
@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 	let paths: { type: string; alias: string }[] = []
 
 	for (const m of firstLevelMenu) {
-		const menu = await navbarAPI(m.id)
+		const menu = await menuAPI(m.id)
 
 		paths = menu.flatMap(s =>
 			s.pages.map(p => ({ type: m.route, alias: p.alias }))
@@ -32,7 +32,7 @@ export default async function TopPage({
 	const firstCategoryItem = firstLevelMenu.find(m => m.route == params.type)
 	if (!firstCategoryItem) notFound()
 
-	const menu = await navbarAPI(firstCategoryItem.id)
+	const menu = await menuAPI(firstCategoryItem.id)
 
 	const page = await pageAPI(params.alias)
 	if (!page) notFound()

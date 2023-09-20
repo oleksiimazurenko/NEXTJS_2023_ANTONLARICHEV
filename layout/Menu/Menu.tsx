@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 import cn from 'classnames'
 import styles from './Menu.module.scss'
 
-import { navbarAPI } from '@/API/menuAPI'
+import { menuAPI } from '@/API/menuAPI'
 import { firstLevelMenu } from '@/helper/helpers'
 import {
 	changeCurrentFirstMenu,
@@ -53,7 +53,7 @@ export const Menu = (): JSX.Element => {
 
 	useEffect(() => {
 		const getMenu = async () => {
-			const defaultMenu = await navbarAPI(currentFirstMenu)
+			const defaultMenu = await menuAPI(currentFirstMenu)
 
 			dispatch(
 				changeSecondMenuArray(
