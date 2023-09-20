@@ -1,3 +1,4 @@
+'use client'
 import { ProductProps } from './Product.props';
 import styles from './Product.module.scss';
 import cn from 'classnames';
@@ -9,36 +10,35 @@ import { declOfNum, priceRu } from '@/helper/helpers';
 import { Divider } from '../Divider/Divider';
 import Image from 'next/image';
 import { ForwardedRef, forwardRef, useRef, useState } from 'react';
-// import { Review } from '../Review/Review';
-// import { ReviewForm } from '../ReviewForm/ReviewForm';
-// import { motion } from 'framer-motion';
+import { Review } from '../Review/Review'
+import { ReviewForm } from '../ReviewForm/ReviewForm'
+import { motion } from 'framer-motion'
 
 export const Product = 
-// motion(forwardRef(
+motion(
+	forwardRef(
 	({ product, className, ...props }: ProductProps, 
-		// ref: ForwardedRef<HTMLDivElement>
+		ref: ForwardedRef<HTMLDivElement>
 		): JSX.Element => {
-	// const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
-	// const reviewRef = useRef<HTMLDivElement>(null);
+	const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
+	const reviewRef = useRef<HTMLDivElement>(null);
 
-	// const variants = {
-	// 	visible: { opacity: 1, height: 'auto' },
-	// 	hidden: { opacity: 0, height: 0 }
-	// };
+	const variants = {
+		visible: { opacity: 1, height: 'auto' },
+		hidden: { opacity: 0, height: 0, overflow: 'hidden' }
+	};
 
-	// const scrollToReview = () => {
-	// 	setIsReviewOpened(true);
-	// 	reviewRef.current?.scrollIntoView({
-	// 		behavior: 'smooth',
-	// 		block: 'start'
-	// 	});
-	// 	reviewRef.current?.focus();
-	// };
+	const scrollToReview = () => {
+		setIsReviewOpened(true);
+		reviewRef.current?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start'
+		});
+		reviewRef.current?.focus();
+	};
 
 	return (
-		<div className={className} {...props} 
-		// ref={ref}
-		>
+		<div className={className} {...props} ref={ref}>
 			<Card className={styles.product}>
 				<div className={styles.logo}>
 					<Image
@@ -99,14 +99,14 @@ export const Product =
 					<Button appearance='primary'>Узнать подробнее</Button>
 					<Button
 						appearance='ghost'
-						// arrow={isReviewOpened ? 'down' : 'right'}
+						arrow={isReviewOpened ? 'down' : 'right'}
 						className={styles.reviewButton}
-						// onClick={() => setIsReviewOpened(!isReviewOpened)}
-						// aria-expanded={isReviewOpened}
+						onClick={() => setIsReviewOpened(!isReviewOpened)}
+						aria-expanded={isReviewOpened}
 					>Читать отзывы</Button>
 				</div>
 			</Card>
-			{/* <motion.div animate={isReviewOpened ? 'visible' : 'hidden'} variants={variants} initial='hidden'>
+			<motion.div animate={isReviewOpened ? 'visible' : 'hidden'} variants={variants} initial='hidden'>
 				<Card color='blue' className={styles.reviews} ref={reviewRef} tabIndex={isReviewOpened ? 0 : -1}>
 					{product.reviews.map(r => (
 						<div key={r._id}>
@@ -116,9 +116,7 @@ export const Product =
 					))}
 					<ReviewForm productId={product._id} isOpened={isReviewOpened} />
 				</Card>
-			</motion.div> */}
+			</motion.div>
 		</div>
 	);
-}
-// ))
-;
+}));

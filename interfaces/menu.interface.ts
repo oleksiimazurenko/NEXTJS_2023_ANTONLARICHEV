@@ -7,7 +7,7 @@ export interface PageItem {
 	category: string
 }
 
-export interface NavbarItem {
+export interface MenuItem {
 	_id: {
 		secondCategory: string
 	}

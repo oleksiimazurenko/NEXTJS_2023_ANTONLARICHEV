@@ -31,7 +31,7 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"store/slices/activePage.slice.ts"
+		"store/slices/menu.slices.ts"
 	],
 	"exclude": ["node_modules"]
 }

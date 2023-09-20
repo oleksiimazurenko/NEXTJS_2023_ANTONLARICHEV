@@ -10,7 +10,7 @@ import { Advantages } from '@/components/Advantages/Advantages'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@/store/store'
 import { SortEnum } from '@/components/Sort/Sort.props'
-import { addProducts, sorting } from '@/store/slices/sorting.slice'
+import { addDefaultProducts, sortingProducts } from '@/store/slices/sorting.slice'
 import { Sort } from '@/components/Sort/Sort'
 import { Product } from '@/components/Product/Product'
 
@@ -22,35 +22,23 @@ export const TopPageComponent = ({
 
 	const dispatch = useDispatch<AppDispatch>()
 
-	const setSort = (sort: SortEnum.Rating) => {
-		dispatch(
-			sorting(sort));
+	const setSort = (sort: SortEnum) => {
+		dispatch(sortingProducts(sort));
 	};
 
 	useEffect(() => {
 		dispatch(
-			addProducts(products)
+			addDefaultProducts(products)
 		)
 	}, [])
 
 	useEffect(() => {
 		dispatch(
-			sorting(SortEnum.Rating)
+			sortingProducts(SortEnum.Rating)
 		)
 	}, [])
 
-	const { products: sortedProducts, sort } = useAppSelector(state => state.sorting)
-
-	// useEffect(() => {
-	// 	dispatch(
-	// 		sorting({ type: 'reset', initialState: products })
-	// 	)
-	// }, [products])
-
-	
-
-	// const [{ products: sortedProducts, sort }, dispathSort] = useReducer(sortReducer, { products, sort: SortEnum.Rating });
-	// const shouldReduceMotion = useReducedMotion();
+	const { products: sortedProducts, sort } = useAppSelector(state => state.sortingProducts)
 
 	return (
 		<div className={styles.wrapper}>
@@ -79,10 +67,12 @@ export const TopPageComponent = ({
 					hh.ru
 				</Tag>
 			</div>
+			
 			{firstCategory == TopLevelCategory.Courses && page.hh && (<HhData {...page.hh} />)}
+
 			{page.advantages && page.advantages.length > 0 && (
 				<>
-					<Htag tag='h2'>Преимущства</Htag>
+					<Htag tag='h2' className={styles.marginBotton}>Преимущeства</Htag>
 					<Advantages advantages={page.advantages} />
 				</>
 			)}
@@ -92,12 +82,13 @@ export const TopPageComponent = ({
 					dangerouslySetInnerHTML={{ __html: page.seoText }}
 				/>
 			)}
-			<Htag tag='h2'>Получаемые навыки</Htag>
+			<Htag tag='h2' className={styles.marginBotton}>Получаемые навыки</Htag>
 			{page.tags.map(t => (
 				<Tag key={t} color='primary'>
 					{t}
 				</Tag>
 			))}
 		</div>
+
 	)
 }

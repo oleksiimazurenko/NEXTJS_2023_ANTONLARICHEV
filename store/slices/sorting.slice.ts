@@ -18,12 +18,14 @@ export const sortingSlice = createSlice({
 	name: 'sorting',
 	initialState,
 	reducers: {
-		sorting: (
+		sortingProducts: (
 			state,
 			{ payload }: PayloadAction<SortEnum.Price | SortEnum.Rating>
 		) => {
+			
 			switch (payload) {
 				case SortEnum.Rating:
+					
 					return {
 						...state,
 						sort: SortEnum.Rating,
@@ -36,14 +38,14 @@ export const sortingSlice = createSlice({
 						...state,
 						sort: SortEnum.Price,
 						products: [...state.products].sort((a, b) =>
-							a.initialRating > b.initialRating ? -1 : 1
+							a.price > b.price ? -1 : 1
 						),
 					}
 				default:
 					throw new Error('Неверный тип сортировки')
 			}
 		},
-		addProducts: (state, { payload }: PayloadAction<ProductModel[]>) => {
+		addDefaultProducts: (state, { payload }: PayloadAction<ProductModel[]>) => {
 			return {
 				...state,
 				products: payload,
@@ -52,5 +54,5 @@ export const sortingSlice = createSlice({
 	},
 })
 
-export const { sorting, addProducts } = sortingSlice.actions
+export const { sortingProducts, addDefaultProducts } = sortingSlice.actions
 export default sortingSlice.reducer

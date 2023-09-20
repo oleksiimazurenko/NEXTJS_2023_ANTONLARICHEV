@@ -1,3 +1,5 @@
+@import '@/styles/variables.scss';
+
 .product {
 	display: grid;
 	grid-template-columns: [start] 70px [logoend] 30px [titlestart] calc(50% - 100px) [middle] 1fr [pricestart] auto [priceend] 40px [creditstart] auto [creditend] 40px [ratestart] auto [end];
@@ -122,7 +124,7 @@
 .disadvantages {
 	padding-left: 15px;
 
-	border-left: 2px solid var(--red);
+	border-left: 2px solid $red;
 }
 
 .characteristics {
@@ -144,7 +146,7 @@
 .characteristicsDots {
 	margin-bottom: 5px;
 
-	border-bottom: 1px dashed var(--gray-light);
+	border-bottom: 1px dashed $gray-light;
 }
 
 .reviews {
@@ -154,7 +156,7 @@
 }
 
 .rateTitle a {
-	color: var(--primary);
+	color: $primary;
 }
 
 @media screen and (max-width: 1320px) {

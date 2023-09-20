@@ -5,9 +5,9 @@ import { Noto_Sans } from 'next/font/google'
 import styles from './layout.module.scss'
 
 import { ReduxProvider } from '@/store/provider'
-import { Footer } from '../components/Footer/Footer'
-import { Header } from '../components/Header/Header'
-import { Sidebar } from '../components/Sidebar/Sidebar'
+import { Footer } from '@/layout/Footer/Footer'
+import { Header } from '@/layout/Header/Header'
+import { Sidebar } from '@/layout/Sidebar/Sidebar'
 
 const notoSans = Noto_Sans({
 	subsets: ['latin', 'cyrillic'],

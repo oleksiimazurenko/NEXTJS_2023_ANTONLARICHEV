@@ -1,57 +1,84 @@
 'use client'
-
 import { v4 as uuidv4 } from 'uuid'
 
-import {
-	FirstLevelMenuItem,
-	NavbarItem,
-	PageItem,
-} from '@/interfaces/navbar.interface'
+import { FirstLevelMenuItem, PageItem } from '@/interfaces/menu.interface'
 
 import { usePathname } from 'next/navigation'
 
 import cn from 'classnames'
-import styles from './Navbar.module.scss'
+import styles from './Menu.module.scss'
 
+import { navbarAPI } from '@/API/menuAPI'
 import { firstLevelMenu } from '@/helper/helpers'
-import { changeCurrentNavbar } from '@/store/slices/activePage.slice'
+import {
+	changeCurrentFirstMenu,
+	changeSecondMenuArray,
+} from '@/store/slices/menu.slices'
 import { AppDispatch, useAppSelector } from '@/store/store'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-export const ClientSideNavbar = ({
-	defaultMenu,
-}: {
-	defaultMenu: NavbarItem[]
-}): JSX.Element => {
-	//----------------------------------------------------------------------------
-
+export const Menu = (): JSX.Element => {
+	
+	const dispatch = useDispatch<AppDispatch>()
 	const pathname = usePathname()
 
 	//----------------------------------------------------------------------------
 
-	const dispatch = useDispatch<AppDispatch>()
-
 	useEffect(() => {
-		dispatch(
-			changeCurrentNavbar(
-				defaultMenu.map(m => ({
-					...m,
-					isOpened: m.pages.map(p => p.alias).includes(pathname.split('/')[2]),
-				}))
-			)
-		)
-	}, [])
+		switch (pathname.split('/')[1]) {
+			case 'courses':
+				dispatch(changeCurrentFirstMenu(0))
+				break
+			case 'services':
+				dispatch(changeCurrentFirstMenu(1))
+				break
+			case 'books':
+				dispatch(changeCurrentFirstMenu(2))
+				break
+			case 'products':
+				dispatch(changeCurrentFirstMenu(3))
+				break
+		}
+	}, [pathname.split('/')[1]])
 
 	//----------------------------------------------------------------------------
 
-	const currentMenu = useAppSelector(state => state.activePage.currentMenu)
+	const { currentFirstMenu } = useAppSelector(
+		state => state.changeCurrentFirstMenu
+	)
+
+	//----------------------------------------------------------------------------
+
+	useEffect(() => {
+		const getMenu = async () => {
+			const defaultMenu = await navbarAPI(currentFirstMenu)
+
+			dispatch(
+				changeSecondMenuArray(
+					defaultMenu.map(m => ({
+						...m,
+						isOpened: m.pages
+							.map(p => p.alias)
+							.includes(pathname.split('/')[2]),
+					}))
+				)
+			)
+		}
+		getMenu()
+	}, [currentFirstMenu])
+
+	//----------------------------------------------------------------------------
+
+	const { secondMenuArray } = useAppSelector(
+		state => state.changeSecondMenuArray
+	)
 
 	//----------------------------------------------------------------------------
 
 	const openSecondLevel = (secondCategory: string) => {
-		const array = currentMenu.map(m => {
+		const array = secondMenuArray.map(m => {
 			if (m && m._id.secondCategory === secondCategory) {
 				return { ...m, isOpened: !m.isOpened }
 			} else {
@@ -59,7 +86,7 @@ export const ClientSideNavbar = ({
 			}
 		})
 
-		dispatch(changeCurrentNavbar(array))
+		dispatch(changeSecondMenuArray(array))
 	}
 
 	//----------------------------------------------------------------------------
@@ -75,7 +102,6 @@ export const ClientSideNavbar = ({
 									className={cn(styles.firstLevel, {
 										[styles.firstLevelActive]: pathname.includes(menu.route),
 									})}
-									// onClick={() => openFirstLevel(m._id.secondCategory)}
 								>
 									{menu.icon}
 									<span>{menu.name}</span>
@@ -94,7 +120,7 @@ export const ClientSideNavbar = ({
 	const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
 		return (
 			<div className={styles.secondBlock}>
-				{currentMenu.map(m => {
+				{secondMenuArray.map(m => {
 					return (
 						<div key={uuidv4()}>
 							<div

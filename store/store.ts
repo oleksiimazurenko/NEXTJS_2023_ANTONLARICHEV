@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
-import activePageSlice from './slices/activePage.slice'
+import { secondMenuArrayReducer, currentFirstMenuReducer } from './slices/menu.slices'
 import sortingSlice from './slices/sorting.slice'
 
 export const store = configureStore({
-	// reducer: activePageSlice,
 	reducer: {
-		'activePage': activePageSlice,
-    'sorting': sortingSlice,
-		'addProducts': sortingSlice
+		changeSecondMenuArray: secondMenuArrayReducer,
+		changeCurrentFirstMenu: currentFirstMenuReducer,
+		sortingProducts: sortingSlice,
+		addDefaultProducts: sortingSlice,
 	},
 	devTools: true,
 })
@@ -17,5 +17,3 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-
-
