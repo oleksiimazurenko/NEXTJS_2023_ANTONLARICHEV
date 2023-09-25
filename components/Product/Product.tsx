@@ -71,7 +71,7 @@ motion(
 				<div className={styles.priceTitle} aria-hidden={true}>цена</div>
 				<div className={styles.creditTitle} aria-hidden={true}>кредит</div>
 				<div className={styles.rateTitle}><a href="#ref" 
-				// onClick={scrollToReview}
+				onClick={scrollToReview}
 				>{product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}</a></div>
 				<Divider className={styles.hr} />
 				<div className={styles.description}>{product.description}</div>

@@ -1,0 +1,39 @@
+@import '@/styles/variables.scss';
+.button {
+	width: 40px;
+	height: 40px;
+
+	cursor: pointer;
+
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
+}
+
+.primary {
+	background-color: $primary;
+}
+
+.primary svg * {
+	fill: $white;
+}
+
+.primary:hover {
+	background-color: $primary-hover;
+}
+
+.white {
+	background-color: $white;
+}
+
+.white svg * {
+	fill: $primary;
+}
+
+.white:hover {
+	background-color: $primary;
+}
+
+.white:hover svg * {
+	fill: $white;
+}

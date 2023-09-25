@@ -13,6 +13,8 @@ import { SortEnum } from '@/components/Sort/Sort.props'
 import { addDefaultProducts, sortingProducts } from '@/store/slices/sorting.slice'
 import { Sort } from '@/components/Sort/Sort'
 import { Product } from '@/components/Product/Product'
+import { useScrollY } from '@/hooks/useScrollY'
+import { useReducedMotion } from 'framer-motion'
 
 export const TopPageComponent = ({
 	page,
@@ -20,7 +22,11 @@ export const TopPageComponent = ({
 	firstCategory,
 }: TopPageComponentProps): JSX.Element => {
 
+	const y = useScrollY();
+
 	const dispatch = useDispatch<AppDispatch>()
+
+	const shouldReduceMotion = useReducedMotion();
 
 	const setSort = (sort: SortEnum) => {
 		dispatch(sortingProducts(sort));
@@ -55,7 +61,7 @@ export const TopPageComponent = ({
 				{sortedProducts && sortedProducts.map(p => (
 					<Product
 						role='listitem'
-						// layout={shouldReduceMotion ? false : true}
+						layout ={shouldReduceMotion ? false : true}
 						key={p._id}
 						product={p}
 					/>
