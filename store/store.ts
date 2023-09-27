@@ -5,7 +5,7 @@ import sortingSlice from './slices/sorting.slice'
 
 export const store = configureStore({
 	reducer: {
-		changeSecondMenuArray: secondMenuArrayReducer,
+		setSecondMenuArrayArrays: secondMenuArrayReducer,
 		changeCurrentFirstMenu: currentFirstMenuReducer,
 		sortingProducts: sortingSlice,
 		addDefaultProducts: sortingSlice,

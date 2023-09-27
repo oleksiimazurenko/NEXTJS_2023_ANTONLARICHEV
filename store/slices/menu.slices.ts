@@ -1,21 +1,24 @@
-import { MenuItem } from '@/interfaces/menu.interface'
+import { ISecondMenuArrayArrays } from '@/interfaces/menu.interface'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface ISecondMenuArray { secondMenuArray: MenuItem[]}
-const secondMenuArray = {secondMenuArray: []} as ISecondMenuArray;
+interface ISecondMenuArray { secondMenuArrayArrays: ISecondMenuArrayArrays}
+const secondMenuArrayArrays = {secondMenuArrayArrays: []} as ISecondMenuArray;
 
 interface ICurrentFirstMenu { currentFirstMenu: number}
 const currentFirstMenu = {currentFirstMenu: 0} as ICurrentFirstMenu;
 
+interface ICurrentSecondMenu { currentSecondMenu: string}
+const currentSecondMenu = {currentSecondMenu: 'Аналитика'} as ICurrentSecondMenu;
+
 const secondMenuArraySlice = createSlice({
-	name: 'secondMenuArray',
-	initialState: secondMenuArray,
+	name: 'secondMenuArrayArrays',
+	initialState: secondMenuArrayArrays,
 	reducers: {
-		changeSecondMenuArray: (state, { payload }: PayloadAction<MenuItem[]>) => {
-			if (state.secondMenuArray === payload) {
+		setSecondMenuArrayArrays: (state, { payload }: PayloadAction<ISecondMenuArrayArrays>) => {
+			if (state.secondMenuArrayArrays === payload) {
 				return
 			}
-			return { ...state, secondMenuArray: payload }
+			return { ...state, secondMenuArrayArrays: payload }
 			
 		}
 	},
@@ -37,8 +40,9 @@ const currentFirstMenuSlice = createSlice({
 	},
 })
 
-export const { changeSecondMenuArray } = secondMenuArraySlice.actions
+export const { setSecondMenuArrayArrays } = secondMenuArraySlice.actions
 export const { changeCurrentFirstMenu } = currentFirstMenuSlice.actions
 
 export const secondMenuArrayReducer = secondMenuArraySlice.reducer;
 export const currentFirstMenuReducer = currentFirstMenuSlice.reducer;
+

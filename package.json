@@ -11,6 +11,7 @@
 		"style_c": "npx stylelint \"**/*.scss\""
 	},
 	"dependencies": {
+		"@radix-ui/react-accordion": "^1.1.2",
 		"@reduxjs/toolkit": "^1.9.5",
 		"@types/node": "20.5.7",
 		"@types/react": "18.2.21",

@@ -1,7 +1,7 @@
 'use client'
 import { v4 as uuidv4 } from 'uuid'
 
-import { FirstLevelMenuItem, PageItem } from '@/interfaces/menu.interface'
+import { FirstLevelMenuItem, MenuItem, ISecondMenuArrayArrays, PageItem } from '@/interfaces/menu.interface'
 
 import { usePathname } from 'next/navigation'
 
@@ -10,141 +10,102 @@ import styles from './Menu.module.scss'
 
 import { menuAPI } from '@/API/menuAPI'
 import { firstLevelMenu } from '@/helper/helpers'
-import {
-	changeCurrentFirstMenu,
-	changeSecondMenuArray,
-} from '@/store/slices/menu.slices'
+import {setSecondMenuArrayArrays} from '@/store/slices/menu.slices'
 import { AppDispatch, useAppSelector } from '@/store/store'
+
+import * as Accordion from '@radix-ui/react-accordion'
+
 import Link from 'next/link'
-import { useEffect, KeyboardEvent } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { motion, useReducedMotion } from 'framer-motion'
+
+import classNames from 'classnames'
+import { ForwardedRef, forwardRef } from 'react'
 
 export const Menu = (): JSX.Element => {
-	
+
 	const dispatch = useDispatch<AppDispatch>()
 	const pathname = usePathname()
 
-	//----------------------------------------------------------------------------
-
-	useEffect(() => {
-		switch (pathname.split('/')[1]) {
-			case 'courses':
-				dispatch(changeCurrentFirstMenu(0))
-				break
-			case 'services':
-				dispatch(changeCurrentFirstMenu(1))
-				break
-			case 'books':
-				dispatch(changeCurrentFirstMenu(2))
-				break
-			case 'products':
-				dispatch(changeCurrentFirstMenu(3))
-				break
-		}
-	}, [pathname.split('/')[1]])
-
-	//----------------------------------------------------------------------------
-
-	const { currentFirstMenu } = useAppSelector(
-		state => state.changeCurrentFirstMenu
-	)
+	let hrefCurrentFirstLevelMenu: string = 'courses'
 
 	//----------------------------------------------------------------------------
 
 	useEffect(() => {
 		const getMenu = async () => {
-			const defaultMenu = await menuAPI(currentFirstMenu)
+			
+			const defaultMenuArray: ISecondMenuArrayArrays = [];
+
+			for(const item of firstLevelMenu) {
+				const defaultMenu = await menuAPI(item.id);
+				defaultMenuArray.push(defaultMenu);
+			}
 
 			dispatch(
-				changeSecondMenuArray(
-					defaultMenu.map(m => ({
-						...m,
-						isOpened: m.pages
-							.map(p => p.alias)
-							.includes(pathname.split('/')[2]),
-					}))
-				)
+				setSecondMenuArrayArrays(defaultMenuArray)
 			)
 		}
 		getMenu()
-	}, [currentFirstMenu])
+
+	}, [])
 
 	//----------------------------------------------------------------------------
 
-	const { secondMenuArray } = useAppSelector(
-		state => state.changeSecondMenuArray
+	const { secondMenuArrayArrays } = useAppSelector(
+		state => state.setSecondMenuArrayArrays
 	)
-
+	
 	//----------------------------------------------------------------------------
 
-	// const shouldReduceMotion = useReducedMotion();
-
-	const variants = {
-		visible: {
-			marginBottom: 20,
-			// transition: shouldReduceMotion ? {} : {
-			// 	when: 'beforeChildren',
-			// 	staggerChildren: 0.1
-			// }
-			transition: {
-				when: 'beforeChildren',
-				staggerChildren: 0.1
+	const getCurrentSecondMenu = (): string => {
+		if (typeof window !== 'undefined') {
+			// Проверяем, что код выполняется в браузере
+			const active = window.localStorage.getItem('idSecondCategory');
+			
+			if (typeof active !== 'string') {
+				return 'default';
 			}
-		},
-		hidden: { marginBottom: 0 }
-	};
-
-	const variantsChildren = {
-		visible: {
-			opacity: 1,
-			minHeight: 29
-		},
-		// hidden: { opacity: shouldReduceMotion ? 1 : 0, height: 0 }
-		hidden: { opacity: 0, height: 0 }
-	};
-
-	//----------------------------------------------------------------------------
-
-	const openSecondLevel = (secondCategory: string) => {
-		const array = secondMenuArray.map(m => {
-			if (m && m._id.secondCategory === secondCategory) {
-				return { ...m, isOpened: !m.isOpened }
-			} else {
-				return m
-			}
-		})
-
-		dispatch(changeSecondMenuArray(array))
-	}
-
-	const openSecondLevelKey = (key: KeyboardEvent, secondCategory: string) => {
-		if (key.code == 'Space' || key.code == 'Enter') {
-			key.preventDefault();
-			openSecondLevel(secondCategory);
+	
+			return active;
 		}
+	
+		// Если код выполняется на сервере или в другой среде, возвращаем 'default'
+		return 'default';
 	};
-
-	//----------------------------------------------------------------------------
 
 	const buildFirstLevel = () => {
+
 		return (
 			<>
-				{firstLevelMenu.map(menu => {
+				{firstLevelMenu.map((menu, i) => {
 					return (
-						<div key={uuidv4()}>
-							<Link href={`/${menu.route}`}>
-								<div
-									className={cn(styles.firstLevel, {
-										[styles.firstLevelActive]: pathname.includes(menu.route),
-									})}
-								>
+						<Accordion.Item
+							key={menu.route}
+							className='AccordionItem'
+							value={menu.route}
+						>
+							<AccordionTrigger 
+								className={cn(styles.firstLevel, {
+										[styles.firstLevelActive]: pathname.split('/')[1] === menu.route,
+									}
+								)}>
+									
 									{menu.icon}
 									<span>{menu.name}</span>
-								</div>
-							</Link>
-							{pathname.includes(menu.route) && buildSecondLevel(menu)}
-						</div>
+							</AccordionTrigger>
+
+							<AccordionContent className={styles.AccordionContent}>
+								<Accordion.Root
+									className={`${styles.menu} AccordionRoot`}
+									type='single'
+									defaultValue={getCurrentSecondMenu()}
+									collapsible
+								>
+									{buildSecondLevel(menu, secondMenuArrayArrays[i])}
+								</Accordion.Root>
+							</AccordionContent>
+							
+						</Accordion.Item>
 					)
 				})}
 			</>
@@ -153,44 +114,52 @@ export const Menu = (): JSX.Element => {
 
 	//----------------------------------------------------------------------------
 
-	const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
-		return (
-			<div className={styles.secondBlock}>
-				{secondMenuArray.map(m => {
-					return (
-						<div key={uuidv4()}>
-							<div
-								tabIndex={0}
-								onKeyDown={(key: KeyboardEvent) => openSecondLevelKey(key, m._id.secondCategory)}
-								className={styles.secondLevel}
-								onClick={() => openSecondLevel(m._id.secondCategory)}
+	const buildSecondLevel = (firstLevelMenu: FirstLevelMenuItem, secondLevelMenuItem: MenuItem[]) => {
+
+		if(secondLevelMenuItem){
+			return (
+				<div className={styles.secondBlock}>
+					{secondLevelMenuItem.map(m => {
+						
+						return (
+							<Accordion.Item 
+								key={uuidv4()}
+								className='AccordionItem'
+								value={m._id.secondCategory}
 							>
-								{m._id.secondCategory}
-							</div>
-							<motion.div 
-								layout
-								variants={variants}
-								initial={m.isOpened ? 'visible' : 'hidden'}
-								animate={m.isOpened ? 'visible' : 'hidden'}
-								className={cn(styles.secondLevelBlock)}
-							>
-								{buildThirdLevel(m.pages, menuItem.route, m.isOpened ?? false)}
-							</motion.div>
-						</div>
-					)
-				})}
-			</div>
-		)
+	
+								<AccordionTrigger
+									className={styles.secondLevel}
+								>
+									{m._id.secondCategory}
+								</AccordionTrigger>
+	
+								<AccordionContent className={`${styles.secondLevelBlock}, ${styles.AccordionContent}`}>
+										{buildThirdLevel(m.pages, firstLevelMenu.route, m._id.secondCategory)}
+								</AccordionContent>
+	
+							</Accordion.Item>
+						)
+					})}
+				</div>
+			)
+		}
+		
 	}
 
 	//----------------------------------------------------------------------------
 
-	const buildThirdLevel = (pages: PageItem[], route: string, isOpened: boolean) => {
+	const buildThirdLevel = (
+		pages: PageItem[],
+		route: string,
+		idSecondCategory: string
+	) => {
+
 		return pages.map(p => (
-			<motion.div key={uuidv4()} variants={variantsChildren}>
+			<div key={uuidv4()}>
 				<Link
-					tabIndex={isOpened ? 0 : -1}
 					href={`/${route}/${p.alias}`}
+					onClick={() => localStorage.setItem('idSecondCategory', idSecondCategory)}
 					className={cn(styles.thirdLevel, {
 						[styles.thirdLevelActive]:
 							`/${pathname.split('/')[1]}/${p.alias}` == pathname,
@@ -198,9 +167,75 @@ export const Menu = (): JSX.Element => {
 				>
 					{p.category}
 				</Link>
-			</motion.div>
+			</div>
 		))
 	}
 
-	return <div className={styles.menu}>{buildFirstLevel()}</div>
+	return (
+		<Accordion.Root
+			className={`${styles.menu} AccordionRoot`}
+			type='single'
+			defaultValue={pathname.split('/')[1]}
+			collapsible
+		>
+			{buildFirstLevel()}
+		</Accordion.Root>
+	)
 }
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+const AccordionTrigger = forwardRef(
+	(
+		{
+			children,
+			className,
+			...props
+		}: {
+			children: React.ReactNode
+			className?: string
+		},
+		forwardedRef: ForwardedRef<HTMLButtonElement>
+	): JSX.Element => (
+		<Accordion.Trigger
+			className={classNames('AccordionTrigger', className)}
+			{...props}
+			ref={forwardedRef}
+		>
+			{children}
+		</Accordion.Trigger>
+	)
+)
+
+const AccordionContent = forwardRef(
+	(
+		{
+			children,
+			className,
+			...props
+		}: {
+			children: React.ReactNode
+			className?: string
+		},
+		forwardedRef: ForwardedRef<HTMLDivElement>
+	): JSX.Element => (
+		<Accordion.Content
+			className={classNames('AccordionContent', className)}
+			{...props}
+			ref={forwardedRef}
+		>
+			<div className='AccordionContentText'>{children}</div>
+		</Accordion.Content>
+	)
+)
+function doAsyncOperation(item: any) {
+	throw new Error('Function not implemented.')
+}
+
