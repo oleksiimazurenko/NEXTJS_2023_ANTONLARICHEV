@@ -1,0 +1,34 @@
+@import '@/styles/variables.scss';
+
+.main {
+	grid-area: main;
+	padding-bottom: 15px;
+	outline: none;
+}
+
+.skipLink {
+	position: fixed;
+	top: 0;
+	left: 100px;
+
+	display: block;
+	overflow: hidden;
+
+	height: 0;
+
+	padding: 0;
+
+	color: $white;
+	background: $primary;
+}
+
+.displayed {
+	height: auto;
+	padding: 5px;
+}
+
+@media(max-width: 765px){
+	.main {
+		padding: 15px;
+	}
+}

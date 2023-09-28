@@ -8,6 +8,8 @@ import { ReduxProvider } from '@/store/provider'
 import { Footer } from '@/layout/Footer/Footer'
 import { Header } from '@/layout/Header/Header'
 import { Sidebar } from '@/layout/Sidebar/Sidebar'
+import { Main } from '@/layout/Main/Main'
+import { Up } from '@/components/Up/Up'
 
 const notoSans = Noto_Sans({
 	subsets: ['latin', 'cyrillic'],
@@ -25,14 +27,16 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
+
 	return (
 		<html lang='en'>
 			<body className={`${notoSans.className} ${styles.wrapper}`}>
 				<ReduxProvider>
 					<Header className={styles.header} />
 					<Sidebar className={styles.sidebar} />
-					<main className={styles.main}>{children}</main>
+					<Main>{children}</Main> 
 					<Footer className={styles.footer} />
+					<Up/>
 				</ReduxProvider>
 			</body>
 		</html>

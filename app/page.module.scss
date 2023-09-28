@@ -1,0 +1,19 @@
+@import '@/styles/variables.scss';
+
+.skipLink {
+	position: fixed;
+	top: 0;
+	left: 100px;
+
+	display: block;
+	overflow: hidden;
+
+	height: 0;
+
+	color: $white;
+	background: $primary;
+}
+
+.displayed {
+	height: auto;
+}
