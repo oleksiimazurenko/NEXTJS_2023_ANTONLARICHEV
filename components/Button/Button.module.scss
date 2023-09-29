@@ -1,17 +1,18 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
 
 .button {
+  cursor: pointer;
+
   display: inline-block;
 
   box-sizing: border-box;
   padding: 10px;
 
-  cursor: pointer;
+  font-size: 14px;
   text-align: center;
+
   border: none;
   border-radius: 5px;
-
-  font-size: 14px;
 
   transition: all 200ms;
 }

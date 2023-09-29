@@ -1,9 +1,10 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
+
 .button {
+  cursor: pointer;
+
   width: 40px;
   height: 40px;
-
-  cursor: pointer;
 
   border: none;
   border-radius: 10px;

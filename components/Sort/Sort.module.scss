@@ -1,18 +1,16 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
 
 .sortIcon {
   display: none;
 }
 
 .active {
-  color: $primary;
-
   font-weight: bold;
+  color: $primary;
 }
 
 .active .sortIcon {
   display: block;
-
   margin-right: 8px;
 }
 
@@ -28,19 +26,18 @@
 }
 
 .sort button {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: 20px 1fr;
-
-  align-items: center;
-
   cursor: pointer;
 
-  border: none;
-  background: none;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 8px;
+  align-items: center;
 
   font-size: 16px;
   line-height: 22px;
+
+  background: none;
+  border: none;
 }
 
 .sort button:not(.active) {

@@ -1,5 +1,8 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
+
 .up {
+  cursor: pointer;
+
   position: fixed;
   right: 30px;
   bottom: 30px;
@@ -7,11 +10,9 @@
   width: 40px;
   height: 40px;
 
-  cursor: pointer;
-
+  background: $primary;
   border: none;
   border-radius: 10px;
-  background: $primary;
   box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
 }
 

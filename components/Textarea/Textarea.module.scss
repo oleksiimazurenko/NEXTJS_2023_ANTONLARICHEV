@@ -1,19 +1,19 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
+
 .textarea {
   width: 100%;
   padding: 7px 15px;
 
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 22px;
   color: $black;
+
+  background: $white;
   border: none;
   border-radius: 5px;
   outline-color: $primary;
-  background: $white;
   box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
-
-  font-family: $font-family;
-
-  font-size: 16px;
-  line-height: 22px;
 }
 
 .textarea::placeholder {
@@ -32,6 +32,5 @@
   position: absolute;
   bottom: -15px;
   left: 0;
-
   color: $red;
 }

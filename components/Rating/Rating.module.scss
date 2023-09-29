@@ -1,13 +1,17 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
+
 .filled svg {
   fill: $primary;
 }
+
 .star {
   display: inline-block;
 }
+
 .star svg {
   margin-right: 5px;
 }
+
 .editable {
   cursor: pointer;
 }

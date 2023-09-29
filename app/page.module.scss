@@ -1,16 +1,17 @@
-@import "@/styles/variables.scss";
+@import "@/styles/variables";
 
 .skipLink {
   position: fixed;
   top: 0;
   left: 100px;
 
-  display: block;
   overflow: hidden;
+  display: block;
 
   height: 0;
 
   color: $white;
+
   background: $primary;
 }
 

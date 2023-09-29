@@ -1,16 +1,40 @@
 @import "@/styles/variables.scss";
 
+// .wrapper {
+//   display: grid;
+//   grid-template-columns: auto 230px minmax(320px, 1200px) auto;
+//   grid-template-rows: auto 1fr auto;
+//   min-height: 100vh;
+//   gap: 0 30px;
+//   grid-template-areas:
+//     ". header header ."
+//     ". sidebar main ."
+//     "footer footer footer footer";
+//   padding-top: 34px;
+// }
+
 .wrapper {
   display: grid;
-  grid-template:
-    "header header header" auto
-    "sidebar main ." 1fr
-    "footer footer footer" auto / auto 230px minmax(320px, 1200px) auto;
+  grid-template: auto 1fr auto / auto 230px minmax(320px, 1200px) auto;
   min-height: 100vh;
   gap: 0 30px;
+  grid-template-areas:
+    ". header header ."
+    ". sidebar main ."
+    "footer footer footer footer";
   padding-top: 34px;
 }
 
+// .wrapper {
+//   display: grid;
+//   grid-template:
+//     "header header header" auto
+//     "sidebar main ." 1fr
+//     "footer footer footer" auto / auto 230px minmax(320px, 1200px) auto;
+//   min-height: 100vh;
+//   gap: 0 30px;
+//   padding-top: 34px;
+// }
 
 .header {
   grid-area: header;
