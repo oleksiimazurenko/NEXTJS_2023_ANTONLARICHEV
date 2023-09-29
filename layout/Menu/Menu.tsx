@@ -16,13 +16,15 @@ import { AppDispatch, useAppSelector } from '@/store/store'
 import * as Accordion from '@radix-ui/react-accordion'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import classNames from 'classnames'
 import { ForwardedRef, forwardRef } from 'react'
 
 export const Menu = (): JSX.Element => {
+
+	// const [announce, setAnnouncel] = useState<'closed' | 'opened' | undefined>();
 
 	const dispatch = useDispatch<AppDispatch>()
 	const pathname = usePathname()
@@ -76,39 +78,40 @@ export const Menu = (): JSX.Element => {
 	const buildFirstLevel = () => {
 
 		return (
-			<>
+			<ul className={styles.firstLevelList}>
 				{firstLevelMenu.map((menu, i) => {
 					return (
-						<Accordion.Item
-							key={menu.route}
-							className='AccordionItem'
-							value={menu.route}
-						>
-							<AccordionTrigger 
-								className={cn(styles.firstLevel, {
-										[styles.firstLevelActive]: pathname.split('/')[1] === menu.route,
-									}
-								)}>
-									
-									{menu.icon}
-									<span>{menu.name}</span>
-							</AccordionTrigger>
+						<li key={menu.route} aria-expanded={pathname.split('/')[1] === menu.route}>
+							<Accordion.Item
+								className='AccordionItem'
+								value={menu.route}
+							>
+								<AccordionTrigger 
+									className={cn(styles.firstLevel, {
+											[styles.firstLevelActive]: pathname.split('/')[1] === menu.route
+										}
+									)}>
+										
+										{menu.icon}
+										<span>{menu.name}</span>
+								</AccordionTrigger>
 
-							<AccordionContent className={styles.AccordionContent}>
-								<Accordion.Root
-									className={`${styles.menu} AccordionRoot`}
-									type='single'
-									defaultValue={getCurrentSecondMenu()}
-									collapsible
-								>
-									{buildSecondLevel(menu, secondMenuArrayArrays[i])}
-								</Accordion.Root>
-							</AccordionContent>
-							
-						</Accordion.Item>
+								<AccordionContent className={styles.AccordionContent}>
+									<Accordion.Root
+										className={`${styles.menu} AccordionRoot`}
+										type='single'
+										defaultValue={getCurrentSecondMenu()}
+										collapsible
+									>
+										{buildSecondLevel(menu, secondMenuArrayArrays[i])}
+									</Accordion.Root>
+								</AccordionContent>
+								
+							</Accordion.Item>
+						</li>
 					)
 				})}
-			</>
+			</ul>
 		)
 	}
 
@@ -118,30 +121,36 @@ export const Menu = (): JSX.Element => {
 
 		if(secondLevelMenuItem){
 			return (
-				<div className={styles.secondBlock}>
+				<ul className={styles.secondBlock}>
 					{secondLevelMenuItem.map(m => {
 						
 						return (
-							<Accordion.Item 
-								key={uuidv4()}
-								className='AccordionItem'
-								value={m._id.secondCategory}
-							>
-	
-								<AccordionTrigger
-									className={styles.secondLevel}
+							<li>
+								<Accordion.Item 
+									key={uuidv4()}
+									className='AccordionItem'
+									value={m._id.secondCategory}
 								>
-									{m._id.secondCategory}
-								</AccordionTrigger>
-	
-								<AccordionContent className={`${styles.secondLevelBlock}, ${styles.AccordionContent}`}>
-										{buildThirdLevel(m.pages, firstLevelMenu.route, m._id.secondCategory)}
-								</AccordionContent>
-	
-							</Accordion.Item>
+		
+									<AccordionTrigger
+										className={styles.secondLevel}
+										// aria-expanded={m.isOpened}
+										// onClick={() => setAnnounce(m.isOpened ? 'closed' : 'opened')}
+									>
+										{m._id.secondCategory}
+									</AccordionTrigger>
+		
+									<AccordionContent className={`${styles.secondLevelBlock}, ${styles.AccordionContent}`}>
+										<ul className={`${styles.secondLevelBlock}`}>
+											{buildThirdLevel(m.pages, firstLevelMenu.route, m._id.secondCategory)}
+										</ul>
+									</AccordionContent>
+		
+								</Accordion.Item>
+							</li>
 						)
 					})}
-				</div>
+				</ul>
 			)
 		}
 		
@@ -156,30 +165,34 @@ export const Menu = (): JSX.Element => {
 	) => {
 
 		return pages.map(p => (
-			<div key={uuidv4()}>
+			<li key={uuidv4()}>
 				<Link
 					href={`/${route}/${p.alias}`}
 					onClick={() => localStorage.setItem('idSecondCategory', idSecondCategory)}
 					className={cn(styles.thirdLevel, {
 						[styles.thirdLevelActive]:
-							`/${pathname.split('/')[1]}/${p.alias}` == pathname,
+							`/${pathname.split('/')[1]}/${p.alias}` == pathname
 					})}
+					aria-current={`/${pathname.split('/')[1]}/${p.alias}` == pathname ? 'page' : false}
 				>
 					{p.category}
 				</Link>
-			</div>
+			</li>
 		))
 	}
 
 	return (
-		<Accordion.Root
-			className={`${styles.menu} AccordionRoot`}
-			type='single'
-			defaultValue={pathname.split('/')[1]}
-			collapsible
-		>
-			{buildFirstLevel()}
-		</Accordion.Root>
+		<nav>
+			<Accordion.Root
+				className={`${styles.menu} AccordionRoot`}
+				type='single'
+				defaultValue={pathname.split('/')[1]}
+				collapsible
+			>
+				{/* {announce && <span role='log' className="visualyHidden">{announce == 'opened' ? 'развернуто' : 'свернуто'}</span>} */}
+				{buildFirstLevel()}
+			</Accordion.Root>
+		</nav>
 	)
 }
 

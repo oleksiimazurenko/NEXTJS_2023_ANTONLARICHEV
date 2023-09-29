@@ -1,106 +1,102 @@
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 
 .firstLevel {
-	display: grid;
-	align-items: center;
+  display: grid;
+  align-items: center;
 
-	margin-top: 20px;
+  margin-top: 20px;
 
-	font-size: 18px;
-	font-weight: 500;
-	line-height: 25px;
-	grid-template-columns: 24px 1fr;
-	gap: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25px;
+  grid-template-columns: 24px 1fr;
+  gap: 20px;
 
-	padding: 0;
-	cursor: pointer;
-	border: none;
-	background: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
 .firstLevelList {
-	padding: 0;
+  padding: 0;
 
-	list-style: none;
+  list-style: none;
 }
 
 .firstLevelActive,
 .firstLevel:hover {
-	color: $primary;
+  color: $primary;
 }
 
 .firstLevelActive svg,
 .firstLevel:hover svg {
-	fill: $primary;
+  fill: $primary;
 }
 
 .secondLevel {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 
-	padding: 0;
+  padding: 0;
 
-	cursor: pointer;
-	text-transform: uppercase;
+  cursor: pointer;
+  text-transform: uppercase;
 
-	color: $gray-dark;
-	border: none;
+  color: $gray-dark;
+  border: none;
 
-	background: none;
+  background: none;
 
-	font-size: 12px;
+  font-size: 12px;
 
-	font-weight: 300;
+  font-weight: 300;
 }
 
 .secondBlock {
-	margin-top: 15px;
-	margin-left: 12px;
-	padding: 0 0 0 32px;
+  margin-top: 15px;
+  margin-left: 12px;
+  padding: 0 0 0 32px;
 
-	list-style: none;
+  list-style: none;
 
-	border-left: 1px solid #DFDFDF;
+  border-left: 1px solid #dfdfdf;
 }
 
-.secondLevelBlock{
-	overflow: hidden;
+.secondLevelBlock {
+  overflow: hidden;
 
-	padding: 0;
+  padding: 0;
 
-	list-style: none;
+  list-style: none;
 }
 
 .thirdLevel {
-	display: block;
+  display: block;
 
-	margin-bottom: 10px;
-	margin-left: 5px;
+  margin-bottom: 10px;
+  margin-left: 5px;
 
-	cursor: pointer;
+  cursor: pointer;
 
-	color: $gray-dark;
-	outline-offset: -1px;
+  color: $gray-dark;
+  outline-offset: -1px;
 
-	font-size: 14px;
-	font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .thirdLevelActive,
 .thirdLevel:hover {
-	color: $primary;
+  color: $primary;
 }
-
-
-
-
 
 .AccordionContent {
   overflow: hidden;
 }
-.AccordionContent[data-state='open'] {
+.AccordionContent[data-state="open"] {
   animation: slideDown 300ms ease-out;
 }
-.AccordionContent[data-state='closed'] {
+.AccordionContent[data-state="closed"] {
   animation: slideUp 300ms ease-out;
 }
 

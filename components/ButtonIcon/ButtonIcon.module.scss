@@ -1,39 +1,39 @@
-@import '@/styles/variables.scss';
+@import "@/styles/variables.scss";
 .button {
-	width: 40px;
-	height: 40px;
+  width: 40px;
+  height: 40px;
 
-	cursor: pointer;
+  cursor: pointer;
 
-	border: none;
-	border-radius: 10px;
-	box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
 }
 
 .primary {
-	background-color: $primary;
+  background-color: $primary;
 }
 
 .primary svg * {
-	fill: $white;
+  fill: $white;
 }
 
 .primary:hover {
-	background-color: $primary-hover;
+  background-color: $primary-hover;
 }
 
 .white {
-	background-color: $white;
+  background-color: $white;
 }
 
 .white svg * {
-	fill: $primary;
+  fill: $primary;
 }
 
 .white:hover {
-	background-color: $primary;
+  background-color: $primary;
 }
 
 .white:hover svg * {
-	fill: $white;
+  fill: $white;
 }
